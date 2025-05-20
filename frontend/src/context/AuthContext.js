@@ -6,6 +6,8 @@ export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get('http://localhost:5000/api/auth/verify-token', {
+      const response = await axios.get(`${API_BASE_URL}/api/auth/verify-token`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -50,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         email,
         password
       });
@@ -91,7 +93,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/register`, {
         username,
         email,
         password
@@ -134,7 +136,7 @@ export const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+      await axios.post(`${API_BASE_URL}/api/auth/forgot-password`, { email });
       return { success: true };
     } catch (error) {
       return {
@@ -146,7 +148,7 @@ export const AuthProvider = ({ children }) => {
 
   const resetPassword = async (token, password) => {
     try {
-      await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, {
+      await axios.post(`${API_BASE_URL}/api/auth/reset-password/${token}`, {
         password
       });
       return { success: true };
