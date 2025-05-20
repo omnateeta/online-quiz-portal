@@ -7,15 +7,15 @@
     "@heroicons/react": "^2.0.17",
     "axios": "^1.3.6",
     "chart.js": "^4.2.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.5.2",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
-    "react-toastify": "^9.1.2",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.1"
+    "react-toastify": "^9.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
