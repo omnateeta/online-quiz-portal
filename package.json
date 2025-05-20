@@ -1,0 +1,20 @@
+{
+  "name": "online-quiz-portal",
+  "version": "1.0.0",
+  "description": "Online Quiz Portal with React frontend and Node.js backend",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
+    "pdfkit": "^0.17.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
