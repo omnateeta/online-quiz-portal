@@ -14,7 +14,8 @@
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.2",
-    "html2canvas": "^1.4.1"
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
