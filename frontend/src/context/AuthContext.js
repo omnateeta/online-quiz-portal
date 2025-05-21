@@ -8,6 +8,10 @@ export const useAuth = () => useContext(AuthContext);
 
 const API_BASE_URL = 'https://online-quiz-portal-9icc.onrender.com';
 
+// Configure axios defaults
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,11 +29,13 @@ export const AuthProvider = ({ children }) => {
       }
 
       const response = await axios.get(`${API_BASE_URL}/api/auth/verify-token`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
       
       if (response.data.user) {
-        // Ensure user object has both _id and id fields
         const userData = {
           ...response.data.user,
           _id: response.data.user._id || response.data.user.id,
@@ -52,15 +58,22 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
-        email,
-        password
-      });
+      console.log('Attempting login to:', `${API_BASE_URL}/api/auth/login`);
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, 
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          withCredentials: true
+        }
+      );
       
+      console.log('Login response:', response.data);
       const { token, user: userData } = response.data;
       
       if (token && userData) {
-        // Ensure user object has both _id and id fields
         const processedUserData = {
           ...userData,
           _id: userData._id || userData.id,
@@ -69,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         
         localStorage.setItem('token', token);
         setUser(processedUserData);
-        console.log('Login - User data:', processedUserData);
+        console.log('Login successful - User data:', processedUserData);
         
         return { 
           success: true, 
@@ -81,7 +94,22 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Login failed:', error);
-      const errorMessage = error.response?.data?.message || 'Login failed. Please check your credentials.';
+      let errorMessage = 'Login failed. Please check your credentials.';
+      
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Error response:', error.response.data);
+        errorMessage = error.response.data.message || errorMessage;
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received:', error.request);
+        errorMessage = 'No response from server. Please check your internet connection.';
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', error.message);
+      }
+      
       toast.error(errorMessage);
       return {
         success: false,
