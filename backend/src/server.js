@@ -99,32 +99,9 @@ const startServer = async () => {
       throw new Error('Failed to connect to MongoDB after multiple attempts');
     }
 
-    let server;
-    let currentPort = config.port;
-
-    const tryListen = (port) => {
-      return new Promise((resolve, reject) => {
-        server = app.listen(port, () => {
-          console.log(`Server is running on port ${port}`);
-          resolve(true);
-        });
-
-        server.on('error', (error) => {
-          if (error.code === 'EADDRINUSE') {
-            console.log(`Port ${port} is busy, trying ${port + 1}`);
-            server.close();
-            resolve(false);
-          } else {
-            reject(error);
-          }
-        });
-      });
-    };
-
-    // Try ports until one works
-    while (!(await tryListen(currentPort))) {
-      currentPort++;
-    }
+    const server = app.listen(config.port, () => {
+      console.log(`Server is running on port ${config.port}`);
+    });
 
     return server;
   } catch (error) {
