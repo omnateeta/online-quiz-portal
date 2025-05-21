@@ -66,50 +66,42 @@ const authController = {
   // Login user
   login: async (req, res) => {
     try {
+      console.log('Login attempt:', { email: req.body.email });
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ 
-          message: 'Validation failed',
-          errors: errors.array()
-        });
+        console.log('Validation errors:', errors.array());
+        return res.status(400).json({ errors: errors.array() });
       }
 
       const { email, password } = req.body;
 
-      // Find user by email
+      // Find user
       const user = await User.findOne({ email });
+      console.log('User found:', user ? 'Yes' : 'No');
+
       if (!user) {
-        console.log(`Login attempt failed: User not found for email ${email}`);
-        return res.status(401).json({ 
-          message: 'Invalid email or password',
-          code: 'INVALID_CREDENTIALS'
-        });
+        console.log('Login failed: User not found');
+        return res.status(401).json({ message: 'Invalid credentials' });
       }
 
       // Check password
-      const isValidPassword = await user.comparePassword(password);
-      if (!isValidPassword) {
-        console.log(`Login attempt failed: Invalid password for user ${email}`);
-        return res.status(401).json({ 
-          message: 'Invalid email or password',
-          code: 'INVALID_CREDENTIALS'
-        });
+      const isMatch = await user.comparePassword(password);
+      console.log('Password match:', isMatch ? 'Yes' : 'No');
+
+      if (!isMatch) {
+        console.log('Login failed: Invalid password');
+        return res.status(401).json({ message: 'Invalid credentials' });
       }
 
       // Generate JWT token
       const token = jwt.sign(
-        { 
-          userId: user._id,
-          isAdmin: user.isAdmin 
-        },
+        { userId: user._id },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
 
-      console.log(`User logged in successfully: ${email} (Admin: ${user.isAdmin})`);
-      
+      console.log('Login successful for user:', user._id);
       res.json({
-        message: 'Login successful',
         token,
         user: {
           id: user._id,
@@ -120,10 +112,7 @@ const authController = {
       });
     } catch (error) {
       console.error('Login error:', error);
-      res.status(500).json({ 
-        message: 'Error during login process',
-        code: 'LOGIN_ERROR'
-      });
+      res.status(500).json({ message: 'Error during login', error: error.message });
     }
   },
 
