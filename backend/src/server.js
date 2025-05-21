@@ -18,6 +18,12 @@ const config = {
   nodeEnv: process.env.NODE_ENV || 'development'
 };
 
+console.log('Starting server with config:', {
+  port: config.port,
+  nodeEnv: config.nodeEnv,
+  mongoUri: config.mongoUri ? 'configured' : 'not configured'
+});
+
 // Middleware
 app.use(cors({
   origin: ['https://online-quiz-portal-wine.vercel.app', 'http://localhost:3000'],
@@ -48,6 +54,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/certificates', certificateRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -91,7 +102,7 @@ const connectWithRetry = async (retries = 5, interval = 5000) => {
   return false;
 };
 
-// Start server with database connection
+// Start server
 const startServer = async () => {
   try {
     const isConnected = await connectWithRetry();
@@ -99,8 +110,20 @@ const startServer = async () => {
       throw new Error('Failed to connect to MongoDB after multiple attempts');
     }
 
-    const server = app.listen(config.port, () => {
+    // Create HTTP server
+    const server = app.listen(config.port, '0.0.0.0', () => {
       console.log(`Server is running on port ${config.port}`);
+      console.log(`Environment: ${config.nodeEnv}`);
+      console.log(`Server URL: http://localhost:${config.port}`);
+    });
+
+    // Handle server errors
+    server.on('error', (error) => {
+      console.error('Server error:', error);
+      if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${config.port} is already in use`);
+      }
+      process.exit(1);
     });
 
     return server;
@@ -110,6 +133,7 @@ const startServer = async () => {
   }
 };
 
+// Start the server
 startServer()
   .then(() => console.log('Server started successfully'))
   .catch(err => {
