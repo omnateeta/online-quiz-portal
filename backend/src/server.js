@@ -126,6 +126,15 @@ const startServer = async () => {
       process.exit(1);
     });
 
+    // Handle process termination
+    process.on('SIGTERM', () => {
+      console.log('SIGTERM received. Shutting down gracefully...');
+      server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+      });
+    });
+
     return server;
   } catch (error) {
     console.error('Failed to start server:', error);
@@ -135,10 +144,14 @@ const startServer = async () => {
 
 // Start the server
 startServer()
-  .then(() => console.log('Server started successfully'))
+  .then(() => {
+    console.log('Server started successfully');
+    console.log(`Listening on port ${config.port}`);
+  })
   .catch(err => {
     console.error('Server startup failed:', err);
     process.exit(1);
   });
 
+// Export the app for testing
 module.exports = app; 
