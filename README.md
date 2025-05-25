@@ -1,6 +1,5 @@
-# Online Quiz Portal
-
-A full-stack web application for conducting online MCQ quizzes with category-wise assessment.
+# Online Quiz Portal 
+-A full-stack web application for conducting online MCQ quizzes with category-wise assessment.
 
 ## Features
 
