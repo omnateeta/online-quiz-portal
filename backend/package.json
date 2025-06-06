@@ -2,6 +2,7 @@
   "name": "online-quiz-portal-backend",
   "version": "1.0.0",
   "description": "Backend for Online Quiz Portal",
+  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
