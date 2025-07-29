@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import certificateController from '../controllers/certificate.controller.js';
+import authMiddleware from '../middleware/auth.middleware.js';
+import Certificate from '../models/certificate.model.js';
+
 const router = express.Router();
-const certificateController = require('../controllers/certificate.controller');
-const authMiddleware = require('../middleware/auth.middleware');
-const Certificate = require('../models/certificate.model');
 
 // Apply auth middleware to all routes
 router.use(authMiddleware);
@@ -36,4 +37,4 @@ router.get('/quiz/:quizId', async (req, res) => {
 // Download certificate PDF
 router.get('/:certificateId/download', certificateController.getCertificatePDF);
 
-module.exports = router; 
+export default router; 

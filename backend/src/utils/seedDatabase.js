@@ -1,7 +1,8 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-const Question = require('../models/question.model');
-const sampleQuestions = require('../data/sampleQuestions');
+import dotenv from 'dotenv';
+dotenv.config();
+import mongoose from 'mongoose';
+import Question from '../models/question.model.js';
+import sampleQuestions from '../data/sampleQuestions.js';
 
 const seedDatabase = async () => {
   try {

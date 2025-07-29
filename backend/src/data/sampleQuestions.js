@@ -119,4 +119,4 @@ const sampleQuestions = [
   }
 ];
 
-module.exports = sampleQuestions; 
+export default sampleQuestions; 
