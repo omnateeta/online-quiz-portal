@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import cloudinary from '../config/cloudinary.js';
+import User from '../models/user.model.js';
+import authMiddleware from '../middleware/auth.middleware.js';
+
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const cloudinary = require('../config/cloudinary');
-const User = require('../models/user.model');
-const authMiddleware = require('../middleware/auth.middleware');
 
 // Configure multer for memory storage
 const storage = multer.memoryStorage();
@@ -129,4 +130,4 @@ router.put('/profile/:id', authMiddleware, upload.single('profilePic'), async (r
   }
 });
 
-module.exports = router; 
+export default router; 

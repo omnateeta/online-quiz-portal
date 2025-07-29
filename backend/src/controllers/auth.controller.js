@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
-const User = require('../models/user.model');
+import jwt from 'jsonwebtoken';
+import { validationResult } from 'express-validator';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import User from '../models/user.model.js';
 
 // Email transporter configuration
 const transporter = nodemailer.createTransport({
@@ -222,4 +222,4 @@ const authController = {
   }
 };
 
-module.exports = authController; 
+export default authController; 

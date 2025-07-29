@@ -1,6 +1,6 @@
-const PDFDocument = require('pdfkit');
-const Certificate = require('../models/certificate.model');
-const QuizAttempt = require('../models/quizAttempt.model');
+import PDFDocument from 'pdfkit';
+import Certificate from '../models/certificate.model.js';
+import QuizAttempt from '../models/quizAttempt.model.js';
 
 const certificateController = {
   generateCertificate: async (quizAttemptId) => {
@@ -191,4 +191,4 @@ const certificateController = {
   }
 };
 
-module.exports = certificateController; 
+export default certificateController; 

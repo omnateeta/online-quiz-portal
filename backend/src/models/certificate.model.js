@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const certificateSchema = new mongoose.Schema({
   user: {
@@ -53,4 +53,4 @@ certificateSchema.pre('save', async function(next) {
 
 const Certificate = mongoose.model('Certificate', certificateSchema);
 
-module.exports = Certificate; 
+export default Certificate; 

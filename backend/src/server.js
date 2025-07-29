@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import quizRoutes from './routes/quiz.routes.js';
 import userRoutes from './routes/user.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -31,8 +32,9 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/quiz', quizRoutes);
+app.use('/api/quizzes', quizRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Error handling
 app.use(errorHandler);

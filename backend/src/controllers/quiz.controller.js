@@ -1,7 +1,7 @@
-const Question = require('../models/question.model');
-const QuizAttempt = require('../models/quizAttempt.model');
-const certificateController = require('./certificate.controller');
-const mongoose = require('mongoose');
+import Question from '../models/question.model.js';
+import QuizAttempt from '../models/quizAttempt.model.js';
+import certificateController from './certificate.controller.js';
+import mongoose from 'mongoose';
 
 // Helper function to check attempt limits
 const checkAttemptLimits = async (userId, category) => {
@@ -449,4 +449,4 @@ function calculateImprovement(attempts) {
   return recentAvg - olderAvg;
 }
 
-module.exports = quizController; 
+export default quizController; 

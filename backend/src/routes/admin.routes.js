@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
+import Question from '../models/question.model.js';
+import QuizAttempt from '../models/quizAttempt.model.js';
+import User from '../models/user.model.js';
+import authMiddleware from '../middleware/auth.middleware.js';
+import adminMiddleware from '../middleware/admin.middleware.js';
+
 const router = express.Router();
-const Question = require('../models/question.model');
-const QuizAttempt = require('../models/quizAttempt.model');
-const User = require('../models/user.model');
-const authMiddleware = require('../middleware/auth.middleware');
-const adminMiddleware = require('../middleware/admin.middleware');
 
 // Apply both auth and admin middleware
 router.use(authMiddleware);
@@ -150,4 +151,4 @@ router.delete('/questions/:id', async (req, res) => {
   }
 });
 
-module.exports = router; 
+export default router; 

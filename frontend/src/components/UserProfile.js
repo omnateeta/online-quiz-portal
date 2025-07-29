@@ -22,7 +22,7 @@ const UserProfile = () => {
       try {
         const token = localStorage.getItem('token');
         console.log('Fetching profile for user:', user._id); // Debug log
-        const response = await axios.get(`http://localhost:5000/api/users/profile/${user._id}`, {
+        const response = await axios.get(`http://localhost:5000/api/user/profile/${user._id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProfileData({
@@ -86,7 +86,7 @@ const UserProfile = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/users/profile/${user._id}`,
+        `http://localhost:5000/api/user/profile/${user._id}`,
         formData,
         {
           headers: {

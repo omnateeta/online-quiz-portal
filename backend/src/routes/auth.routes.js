@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { body } from 'express-validator';
+import authController from '../controllers/auth.controller.js';
+
 const router = express.Router();
-const { body } = require('express-validator');
-const authController = require('../controllers/auth.controller');
 
 // Validation middleware
 const registerValidation = [
@@ -22,4 +23,4 @@ router.post('/forgot-password', body('email').isEmail(), authController.forgotPa
 router.post('/reset-password/:token', body('password').isLength({ min: 6 }), authController.resetPassword);
 router.get('/verify-token', authController.verifyToken);
 
-module.exports = router; 
+export default router; 

@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-const API_BASE_URL = 'https://online-quiz-portal-9icc.onrender.com';
+const API_BASE_URL = 'http://localhost:5000';
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
